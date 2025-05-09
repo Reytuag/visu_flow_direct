@@ -347,7 +347,6 @@
             <div id="videoTitle">Trial: ---</div> <video loop muted controls></video>
             <button id="addToExportButton" onclick="toggleExportSelection()">Add to Export</button>
             <div id="goalDataContainer">
-                <button id="toggleGoalButton" onclick="toggleGoalData()">Show Goal Data</button>
                 <div id="goalDataDisplay"></div>
             </div>
         </div>
@@ -670,15 +669,20 @@
                 const discovery = allDiscoveriesInView[originalIndex]; if (!discovery || !discovery.visual) return;
                 const visualPath = discovery.visual; const pathParts = visualPath.split('/');
                 if (pathParts.length < 2) { console.error("[Goal Data] Cannot determine base directory from visual path:", visualPath); return; }
-                const baseDir = pathParts[0]; const goalPath = `${baseDir}/reached_goal.json`;
+                const baseDir = pathParts[0]+"/"+pathParts[1]; const goalPath = `${baseDir}/reached_goal.json`;
                 console.log("[Goal Data] Attempting to fetch:", goalPath);
                 try {
                     const response = await fetch(goalPath); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status}`); }
                     currentGoalData = await response.json(); console.log("[Goal Data] Fetched successfully:", currentGoalData);
+                    const displayDiv = document.getElementById('goalDataDisplay');
+                    if (currentGoalData) { displayDiv.textContent = JSON.stringify(currentGoalData, null, 2); displayDiv.style.display = 'block'; }
+                    else { displayDiv.textContent = 'No goal data loaded or available.'; displayDiv.style.display = 'block'; }
+                    //document.getElementById('toggleGoalButton').textContent = 'Hide Goal Data';
                 } catch (error) { console.error("[Goal Data] Failed to fetch or parse", goalPath, error); currentGoalData = { error: `Failed to load: ${error.message}` }; }
+
             }
             function toggleGoalData() {
-                const displayDiv = document.getElementById('goalDataDisplay'); const button = document.getElementById('toggleGoalButton');
+                //const displayDiv = document.getElementById('goalDataDisplay'); const button = document.getElementById('toggleGoalButton');
                 if (displayDiv.style.display === 'none') { showGoalData(); button.textContent = 'Hide Goal Data'; }
                 else { hideGoalData(); button.textContent = 'Show Goal Data'; }
             }
@@ -686,11 +690,11 @@
                 const displayDiv = document.getElementById('goalDataDisplay');
                 if (currentGoalData) { displayDiv.textContent = JSON.stringify(currentGoalData, null, 2); displayDiv.style.display = 'block'; }
                 else { displayDiv.textContent = 'No goal data loaded or available.'; displayDiv.style.display = 'block'; }
-                document.getElementById('toggleGoalButton').textContent = 'Hide Goal Data';
+                //document.getElementById('toggleGoalButton').textContent = 'Hide Goal Data';
             }
             function hideGoalData() {
                 const displayDiv = document.getElementById('goalDataDisplay'); displayDiv.style.display = 'none'; displayDiv.textContent = '';
-                document.getElementById('toggleGoalButton').textContent = 'Show Goal Data';
+                //document.getElementById('toggleGoalButton').textContent = 'Show Goal Data';
             }
 
             // --- Export Logic ---
