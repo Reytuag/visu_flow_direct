@@ -444,7 +444,7 @@
                 allDiscoveriesInView.forEach((discovery, index) => {
                     // Add trialID here for easier access later
                     const visualPath = discovery.visual;
-                    const trialID = visualPath ? visualPath.split('/')[0] : index.toString(); // Derive trial ID
+                    const trialID = visualPath ? visualPath.split('/')[2] : index.toString(); // Derive trial ID
                     newViewDataMap.set(index, { ...discovery, trialID: trialID, originalIndex: index }); // Ensure originalIndex is part of the object
                 });
 
@@ -639,7 +639,7 @@
                 if (!visualPath) { console.error("[Video] Missing visual path for index:", originalIndex); return; }
 
                 // Derive Trial ID
-                const trialID = visualPath.split('/')[0] || `Index ${originalIndex}`; // Fallback
+                const trialID = visualPath.split('/')[2] || `Index ${originalIndex}`; // Fallback
 
                 const videoOverlay = document.getElementById('videoOverlay');
                 const videoElement = videoOverlay.querySelector('video');
@@ -719,7 +719,7 @@
 
                 const exportList = document.getElementById('exportList');
                 const visualPath = allDiscoveriesInView[currentVideoIndex].visual;
-                const trialID = visualPath ? visualPath.split('/')[0] : currentVideoIndex.toString();
+                const trialID = visualPath ? visualPath.split('/')[2] : currentVideoIndex.toString();
                 const displayName = `trial_${trialID}.png`; // Use name for display
 
                 if (selectedEntries.has(currentVideoIndex)) {
@@ -787,7 +787,7 @@
                         continue;
                     }
 
-                    const trialID = visualPath.split('/')[0];
+                    const trialID = visualPath.split('/')[2];
                     if (!trialID) {
                         console.warn(`[Export] Skipping index ${index}: Could not derive trial ID from path ${visualPath}`);
                         continue;
