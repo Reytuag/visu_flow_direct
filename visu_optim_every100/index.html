@@ -456,6 +456,8 @@
                 // 1. Update positions of existing items / Mark for removal
                 itemsInDom.forEach(itemElement => {
                     const index = parseInt(itemElement.dataset.originalIndex);
+                    itemsToRemove.push(itemElement);
+                    /*
                     if (newViewDataMap.has(index)) {
                         // Item exists in the new view, update its position
                         const discoveryData = newViewDataMap.get(index);
@@ -466,7 +468,7 @@
                     } else {
                         // Item does NOT exist in the new view, mark for removal
                         itemsToRemove.push(itemElement);
-                    }
+                    }*/
                 });
 
                 // Remove items not present in the new view
