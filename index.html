@@ -356,6 +356,38 @@
             color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
+
+        .thumbnail {
+        width: 100%;
+        height: auto;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        }
+
+        .expanded {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        max-width: 90%;
+        max-height: 90%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        box-shadow: 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        }
+
+        .overlay.show {
+        display: block;
+        }
     </style>
 </head>
 
@@ -453,10 +485,10 @@
         <section>
             <h2>Atlas of discoveries</h2>
             <p>Explain ... </p>
-            <div class="container">
-            <img src="umap_image_gallery_colored_borders.png" alt="Atlas of discoveries" style="width: 100%; height: auto;">
+            <div class="overlay" id="overlay" onclick="toggleImage()"></div>
+            <img src="umap_image_gallery_colored_borders.png" alt="Atlas of discoveries"  class="thumbnail" id="clickableImage" onclick="toggleImage()">
             <a href="visu_optim_every100/index.html" class="btn">Access the Visualization Tool</a>
-            </div>
+
             
         </section>
     </main>
@@ -467,6 +499,14 @@
             <p>Contact: </p>
         </div>
     </footer>
+    <script>
+        function toggleImage() {
+          const img = document.getElementById('clickableImage');
+          const overlay = document.getElementById('overlay');
+          img.classList.toggle('expanded');
+          overlay.classList.toggle('show');
+        }
+      </script>
 </body>
 
 </html>
